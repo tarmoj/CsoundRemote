@@ -43,6 +43,7 @@ DISTFILES += \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat \
     test-udp.qml \
-    ablinger-udp.qml
+    ablinger-udp.qml \
+    ablinger-udp2.qml
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

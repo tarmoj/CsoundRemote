@@ -6,6 +6,9 @@ import QtQuick.Layouts 1.1
 Item {
     width: 640
     height: 480
+    property alias requestControlChannelButton: requestControlChannelButton
+    property alias valueLabel: valueLabel
+    property alias requestControlChannelField: requestControlChannelField
     property alias uiArea: uiArea
     property alias loadButton: loadButton
     property alias orcField: orcField
@@ -33,12 +36,16 @@ Item {
         gradient: Gradient {
             GradientStop {
                 position: 0
-                color: "#ffffff"
+                color: "lightgrey"
             }
+
+
             GradientStop {
-                position: 1
-                color: "#000000"
+                position: 0.317
+                color: "darkgrey"
             }
+
+
         }
         anchors.fill: parent
 
@@ -57,6 +64,8 @@ Item {
 
             GridLayout {
                 id: gridLayout
+                anchors.rightMargin: 5
+                anchors.leftMargin: 5
                 anchors.fill:parent
                 flow: GridLayout.LeftToRight
                 columns: 3
@@ -69,7 +78,7 @@ Item {
                 TextField {
                     id: hostField
                     //width: 250
-                    text: "192.168.1.151"
+                    text: "10.42.0.1"
                 }
 
                 Label {
@@ -108,7 +117,7 @@ Item {
 
                 Slider {
                     id: channelSlider
-                    width: 250
+                    //width: 250
                 }
 
                 Label {
@@ -143,28 +152,41 @@ Item {
                     text: qsTr("Send")
                 }
 
-                Label {
-                    id: label5
-                    text: qsTr("StringChannel")
+                Button {
+                    id: send2stringChannelButton
+                    text: qsTr("Send String")
                 }
 
                 TextField {
                     id: stringChannel
                     //width: 140
-                    text: "message"
+                    text: "channelName"
                     placeholderText: qsTr("Text Field")
                 }
 
+
                 TextField {
                     id: stringChannelField
-                    text: "hello"
+                    text: "string"
                     placeholderText: qsTr("Text Field")
                 }
 
                 Button {
-                    id: send2stringChannelButton
-                    text: qsTr("Send String")
+                    id: requestControlChannelButton
+                    text: qsTr("Request channel")
                 }
+
+                TextField {
+                    id: requestControlChannelField
+                    text: qsTr("volume")
+                }
+
+                Label {
+                    id: valueLabel
+                    text: "Value"
+                    //text: qsTr("Value")
+                }
+
             }
         }
 
