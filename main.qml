@@ -18,24 +18,44 @@ ApplicationWindow {
 
     }
 
+
     MainForm {
         id: mainForm
         //anchors.top: loadQmlButton.bottom
         anchors.fill: parent
         //anchors.margins: 5
+        property string lastHost: "192.168.1.199"
+        property int lastPort: 6006
+
+        closeButton.onClicked: {
+            udpSender.sendMessage("##close##")
+        }
+
 
         Settings {
-                id: settings
-                //property alias host:  mainForm.hostField.text
-                //property alias port: portSpinBox.value
+            id: settings
+                property alias host:  mainForm.lastHost
+                property alias port: mainForm.lastPort
                 property alias lastQml: fileDialog.fileUrl
                 property alias lastQmlPath: fileDialog.folder
             }
 
+        Component.onCompleted: {
+            mainForm.portSpinBox.value = lastPort;
+            mainForm.hostField.text = lastHost;
+            udpSender.setAddress(lastHost, lastPort);
+        }
+
         loadButton.onClicked: fileDialog.visible = true
+
+        defaultButton.onClicked: {
+            state = ""
+        }
 
         updateButton.onClicked: {
             udpSender.setAddress(hostField.text, portSpinBox.value );
+            lastHost = hostField.text;
+            lastPort = portSpinBox.value;
         }
         channelSlider.onValueChanged: udpSender.sendMessage("@"+channelField.text+" "+(200+channelSlider.value*100));
         eventbutton.onClicked: udpSender.sendMessage("$"+eventField.text)
@@ -58,9 +78,10 @@ ApplicationWindow {
                 basename = basename.slice(0, basename.lastIndexOf("/")+1)
                 folder = basename
                 console.log("You chose: " + fileUrl + " in folder: " + basename)
+
+                mainForm.state = "external";
                 var component = Qt.createComponent(fileDialog.fileUrl);
-                var win = component.createObject(mainForm.uiArea);
-               //win.show();
+                var win = component.createObject(mainForm.externalUi);
             }
             onRejected: {
                 console.log("Canceled")

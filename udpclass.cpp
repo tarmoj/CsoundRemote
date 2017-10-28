@@ -1,5 +1,6 @@
 #include "udpclass.h"
 #include <QNetworkDatagram>
+#include <QNetworkInterface>
 
 UdpClass::UdpClass(QObject *parent)
 {
@@ -8,7 +9,7 @@ UdpClass::UdpClass(QObject *parent)
 	sendSocket  = new QUdpSocket(this);
 	// receiving
 	receiveSocket = new QUdpSocket(this);
-	receiveSocket->bind(QHostAddress::LocalHost, RECEIVE_PORT);
+	receiveSocket->bind(QHostAddress::Any, RECEIVE_PORT);
 
 	connect(receiveSocket, SIGNAL(readyRead()),
 			this, SLOT(readPendingDatagrams()));
@@ -45,7 +46,8 @@ void  UdpClass::sendMessage(QString message)
 // :%[channel] [address] [port]
 void UdpClass::requestControlChannelValue(QString channel)
 {
-	QString myIpAddress = "127.0.0.1"; // TODO: find
+	QString myIpAddress = getLocalAddress();
+	qDebug()<<"My IP: "<< myIpAddress;
 	QString myPort = QString::number(RECEIVE_PORT);
 
 	sendMessage(":@"+channel+ " " + myIpAddress + " " + myPort);
@@ -70,13 +72,33 @@ void UdpClass::readPendingDatagrams()
 		QString response = QString(datagram.data());
 		qDebug()<<"Recieved " << response;
 		QStringList messageParts = response.split("::");
-		QString channel = messageParts[0];
-		bool ok;
-		double value = messageParts[1].toDouble(&ok);
-		if (ok) {
-			channelValues[channel] = value;
-			emit newChannelValue(channel, value);
+		if (messageParts.count()>=2) {
+			QString channel = messageParts[0];
+			bool ok;
+			double value = messageParts[1].toDouble(&ok);
+			if (ok) {
+				channelValues[channel] = value;
+				emit newChannelValue(channel, value);
+			}
 		}
 
 	}
+}
+
+QString UdpClass::getLocalAddress()
+{
+	QString address = QString();
+	QList <QHostAddress> localAddresses = QNetworkInterface::allAddresses();
+	for(int i = 0; i < localAddresses.count(); i++) {
+
+		if(!localAddresses[i].isLoopback())
+			if (localAddresses[i].protocol() == QAbstractSocket::IPv4Protocol ) {
+				address = localAddresses[i].toString();
+				qDebug() << "YOUR IP: " << address;
+				break; // get the first address (avoid bridges etc)
+
+		}
+
+	}
+	return address;
 }

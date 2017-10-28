@@ -23,6 +23,7 @@ public:
 	Q_INVOKABLE double getControlChannel(QString channel);
 //	Q_INVOKABLE QString getStringChannel(QString channel);
 
+	Q_INVOKABLE QString getLocalAddress();
 signals:
 	void newChannelValue(QString channel, double value);
 

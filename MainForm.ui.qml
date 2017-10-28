@@ -6,6 +6,9 @@ import QtQuick.Layouts 1.1
 Item {
     width: 640
     height: 480
+    property alias closeButton: closeButton
+    property alias externalUi: externalUi
+    property alias defaultButton: defaultButton
     property alias requestControlChannelButton: requestControlChannelButton
     property alias valueLabel: valueLabel
     property alias requestControlChannelField: requestControlChannelField
@@ -35,6 +38,7 @@ Item {
         anchors.topMargin: 0
         gradient: Gradient {
             GradientStop {
+                id: gradientStop1
                 position: 0
                 color: "lightgrey"
             }
@@ -49,17 +53,36 @@ Item {
         }
         anchors.fill: parent
 
-        Button {
-            id: loadButton
-            text: qsTr("Load QML")
+        Row {
+            id: row1
+            spacing: 5
+
+            Button {
+                id: loadButton
+                text: qsTr("Load QML")
+            }
+
+            Button {
+                id: defaultButton
+                text: qsTr("Back")
+            }
+        }
+
+        Item {
+            id: externalUi
+            anchors.top: row1.bottom
+            anchors.topMargin: 5
+            anchors.right: parent.right
+            anchors.left: parent.left
+            anchors.bottom: rectangle1.bottom
+            visible: false
         }
 
         Item {
             id: uiArea
-            anchors.top: loadButton.bottom
+            anchors.top: row1.bottom
             anchors.topMargin: 5
             anchors.right: parent.right
-            anchors.bottom: parent.bottom
             anchors.left: parent.left
 
             GridLayout {
@@ -187,10 +210,24 @@ Item {
                     //text: qsTr("Value")
                 }
 
+                Button {
+                    id: closeButton
+                    text: qsTr("Close Csound")
+                }
+
             }
         }
 
 
+
     }
+    states: [
+        State {
+            name: "external"
+            PropertyChanges { target: uiArea; visible: false; }
+            PropertyChanges { target: externalUi; visible: true; }
+
+        }
+    ]
 
 }

@@ -59,7 +59,7 @@ Rectangle {
 
                     Timer {
                         id: testTimer
-                        interval: 500
+                        interval: 100
                         running: false; repeat: false;
                         onTriggered: {
                             console.log("triggeerd")
@@ -124,16 +124,18 @@ Rectangle {
     Button {
         id: nextButton
         x:5
-        //Layout.fillHeight:  true
-        text: "Next filter"
+        text: "0"
         width: ablingerRect.width -5
         height:  ablingerRect.height/4
-        //anchors.horizontalCenter: parent.horzontalCenter
         anchors.bottom: ablingerRect.bottom
         anchors.bottomMargin:  5
         onClicked:  {
-            var value = Math.floor(Math.random()*12);
+            var value = parseInt(this.text);
             console.log(value);
+            while  (value === parseInt(this.text))   { // to make sure that there is no repeating numbers
+                value = 1 + Math.floor(Math.random()*9);
+                console.log(value);
+            }
             text = value.toString();
             var command =  "schedule 1,0,0," +  value.toString(); //"$i 1 0 0 " + value.toString() + "\n"
             udpSender.sendMessage(command);
