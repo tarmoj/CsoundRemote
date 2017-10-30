@@ -14,7 +14,7 @@ ApplicationWindow {
     Connections {
         target:  udpSender
 
-        onNewChannelValue: mainForm.valueLabel.text = value.toFixed(3)
+        onNewControlChannelValue: mainForm.valueLabel.text = value.toFixed(3)
 
     }
 
@@ -48,7 +48,7 @@ ApplicationWindow {
 
         loadButton.onClicked: fileDialog.visible = true
 
-        defaultButton.onClicked: {
+        backButton.onClicked: {
             state = ""
         }
 
@@ -57,7 +57,7 @@ ApplicationWindow {
             lastHost = hostField.text;
             lastPort = portSpinBox.value;
         }
-        channelSlider.onValueChanged: udpSender.sendMessage("@"+channelField.text+" "+(200+channelSlider.value*100));
+        channelSlider.onValueChanged: udpSender.sendMessage("@"+channelField.text+" "+channelSlider.value);
         eventbutton.onClicked: udpSender.sendMessage("$"+eventField.text)
         orcButton.onClicked: udpSender.sendMessage(orcField.text)
         send2stringChannelButton.onClicked: udpSender.sendMessage("%"+stringChannel.text + " " + stringChannelField.text )

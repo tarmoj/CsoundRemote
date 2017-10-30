@@ -13,27 +13,30 @@ class UdpClass : public QObject
 public:
     explicit UdpClass(QObject *parent = NULL);
     ~UdpClass();
-    Q_INVOKABLE void setAddress(QString host, int port);
+	Q_INVOKABLE void setAddress(QString host, quint16 port);
+	Q_INVOKABLE void setReceivingPort(int port);
 	Q_INVOKABLE void sendMessage(QString message);
-//	Q_INVOKABLE void setChannel(QString channel, double value);
-//	Q_INVOKABLE void compileOrc(QString code);
-//	Q_INVOKABLE void sendEvent(QString event);
+	Q_INVOKABLE void setControlChannel(QString channel, double value);
+	Q_INVOKABLE void setStringChannel(QString channel, QString string);
+	Q_INVOKABLE void compileOrc(QString code);
+	Q_INVOKABLE void readScore(QString score);
 	Q_INVOKABLE void requestControlChannelValue(QString channel);
-//	Q_INVOKABLE void requestStringChannelValue(QString channel);
+	Q_INVOKABLE void requestStringChannelValue(QString channel);
 	Q_INVOKABLE double getControlChannel(QString channel);
-//	Q_INVOKABLE QString getStringChannel(QString channel);
+	Q_INVOKABLE QString getStringChannel(QString channel);
 
 	Q_INVOKABLE QString getLocalAddress();
 signals:
-	void newChannelValue(QString channel, double value);
-
+	void newControlChannelValue(QString channel, double value);
+	void newStringChannelValue(QString channel, QString string);
 
 private:
 
 	QHostAddress sendHost;
-	int sendPort, receivePort;
+	quint16 sendPort, receivePort;
 	QUdpSocket * sendSocket, * receiveSocket;
-	QHash <QString, double> channelValues;
+	QHash <QString, double> controlChannelValues;
+	QHash <QString, QString> stringChannelValues;
 
 private slots:
 	void readPendingDatagrams();

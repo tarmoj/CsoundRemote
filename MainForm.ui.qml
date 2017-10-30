@@ -6,9 +6,9 @@ import QtQuick.Layouts 1.1
 Item {
     width: 640
     height: 480
+    property alias backButton: backButton
     property alias closeButton: closeButton
     property alias externalUi: externalUi
-    property alias defaultButton: defaultButton
     property alias requestControlChannelButton: requestControlChannelButton
     property alias valueLabel: valueLabel
     property alias requestControlChannelField: requestControlChannelField
@@ -53,19 +53,22 @@ Item {
         }
         anchors.fill: parent
 
+
+
         Row {
             id: row1
             spacing: 5
+
+            Button {
+                id: backButton
+                text: qsTr("Back")
+            }
 
             Button {
                 id: loadButton
                 text: qsTr("Load QML")
             }
 
-            Button {
-                id: defaultButton
-                text: qsTr("Back")
-            }
         }
 
         Item {
@@ -77,6 +80,8 @@ Item {
             anchors.bottom: rectangle1.bottom
             visible: false
         }
+
+
 
         Item {
             id: uiArea
