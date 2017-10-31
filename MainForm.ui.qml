@@ -98,15 +98,17 @@ Item {
 
             Flickable {
                 id: flickable1
+                contentWidth: gridLayout.width
+                contentHeight: gridLayout.height
                 anchors.fill: parent
 
                 GridLayout {
                     id: gridLayout
                     x: 5
                     y: 0
-                    anchors.right: parent.right
-                    anchors.left: parent.left
-                    anchors.top: parent.top
+//                    anchors.right: parent.right
+//                    anchors.left: parent.left
+//                    anchors.top: parent.top
                     anchors.rightMargin: 5
                     anchors.leftMargin: 5
                     flow: GridLayout.LeftToRight
