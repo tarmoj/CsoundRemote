@@ -6,6 +6,9 @@ import QtQuick.Layouts 1.1
 Item {
     width: 640
     height: 480
+    property alias stringValueLabel: stringValueLabel
+    property alias requestStringChannelField: requestStringChannelField
+    property alias requestStringChannelButton: requestStringChannelButton
     property alias backButton: backButton
     property alias closeButton: closeButton
     property alias externalUi: externalUi
@@ -71,6 +74,7 @@ Item {
 
         }
 
+
         Item {
             id: externalUi
             anchors.top: row1.bottom
@@ -83,145 +87,175 @@ Item {
 
 
 
+
         Item {
             id: uiArea
+            anchors.bottom: parent.bottom
             anchors.top: row1.bottom
             anchors.topMargin: 5
             anchors.right: parent.right
             anchors.left: parent.left
 
-            GridLayout {
-                id: gridLayout
-                anchors.rightMargin: 5
-                anchors.leftMargin: 5
-                anchors.fill:parent
-                flow: GridLayout.LeftToRight
-                columns: 3
+            Flickable {
+                id: flickable1
+                anchors.fill: parent
 
-                Label {
-                    id: label
-                    text: qsTr("Host")
-                }
+                GridLayout {
+                    id: gridLayout
+                    x: 5
+                    y: 0
+                    anchors.right: parent.right
+                    anchors.left: parent.left
+                    anchors.top: parent.top
+                    anchors.rightMargin: 5
+                    anchors.leftMargin: 5
+                    flow: GridLayout.LeftToRight
+                    columns: 3
 
-                TextField {
-                    id: hostField
-                    //width: 250
-                    text: "10.42.0.1"
-                }
+                    Label {
+                        id: label
+                        text: qsTr("Host")
+                    }
 
-                Label {
-                    id: label1
-                    text: qsTr("Port")
-                    Layout.row: 2
-                }
+                    TextField {
+                        id: hostField
+                        //width: 250
+                        text: "192.168.1.199"
+                    }
 
-                SpinBox {
-                    id: portSpinBox
-                    //width: 140
-                    value: 6006
-                    editable: true
-                    stepSize: 1
-                    from: 1000
-                    to: 99999
-                }
+                    Label {
+                        id: label1
+                        text: qsTr("Port")
+                        Layout.row: 2
+                    }
 
-                Button {
-                    id: updateButton
-                    text: qsTr("Update")
-                }
+                    SpinBox {
+                        id: portSpinBox
+                        //width: 140
+                        value: 6006
+                        editable: true
+                        stepSize: 1
+                        from: 1000
+                        to: 99999
+                    }
 
-                Label {
-                    id: label2
-                    text: qsTr("Channel:")
-                    Layout.row: 3
-                }
+                    Button {
+                        id: updateButton
+                        text: qsTr("Update")
+                    }
 
-                TextField {
-                    id: channelField
-                    //width: 140
-                    text: "freq"
-                    placeholderText: qsTr("Text Field")
-                }
+                    Label {
+                        id: label2
+                        text: qsTr("Channel:")
+                        Layout.row: 3
+                    }
 
-                Slider {
-                    id: channelSlider
-                    //width: 250
-                }
+                    TextField {
+                        id: channelField
+                        //width: 140
+                        text: "volume"
+                        placeholderText: qsTr("Text Field")
+                    }
 
-                Label {
-                    id: label3
-                    text: qsTr("Event")
-                }
+                    Slider {
+                        id: channelSlider
+                        //width: 250
+                    }
 
-                TextField {
-                    id: eventField
-                    text: "i 1 0 1"
-                    placeholderText: qsTr("Text Field")
-                }
+                    Label {
+                        id: label3
+                        text: qsTr("Event")
+                    }
 
-                Button {
-                    id: eventbutton
-                    text: qsTr("Event")
-                }
+                    TextField {
+                        id: eventField
+                        text: "i 1 0 1"
+                        placeholderText: qsTr("Text Field")
+                    }
 
-                Label {
-                    id: label4
-                    text: qsTr("CompileOrc")
-                }
+                    Button {
+                        id: eventbutton
+                        text: qsTr("Event")
+                    }
 
-                TextField {
-                    id: orcField
-                    //width: 200
-                    text: "gkValue init 1"
-                }
+                    Label {
+                        id: label4
+                        text: qsTr("CompileOrc")
+                    }
 
-                Button {
-                    id: orcButton
-                    text: qsTr("Send")
-                }
+                    TextField {
+                        id: orcField
+                        //width: 200
+                        text: "gkValue init 1"
+                    }
 
-                Button {
-                    id: send2stringChannelButton
-                    text: qsTr("Send String")
-                }
+                    Button {
+                        id: orcButton
+                        text: qsTr("Send")
+                    }
 
-                TextField {
-                    id: stringChannel
-                    //width: 140
-                    text: "channelName"
-                    placeholderText: qsTr("Text Field")
-                }
+                    Button {
+                        id: send2stringChannelButton
+                        text: qsTr("Send String")
+                    }
+
+                    TextField {
+                        id: stringChannel
+                        //width: 140
+                        text: "status"
+                        placeholderText: qsTr("Text Field")
+                    }
 
 
-                TextField {
-                    id: stringChannelField
-                    text: "string"
-                    placeholderText: qsTr("Text Field")
-                }
+                    TextField {
+                        id: stringChannelField
+                        text: "OK"
+                        placeholderText: qsTr("Text Field")
+                    }
 
-                Button {
-                    id: requestControlChannelButton
-                    text: qsTr("Request channel")
-                }
+                    Button {
+                        id: requestControlChannelButton
+                        text: qsTr("Request ControlChannel")
+                    }
 
-                TextField {
-                    id: requestControlChannelField
-                    text: qsTr("volume")
-                }
+                    TextField {
+                        id: requestControlChannelField
+                        text: qsTr("volume")
+                    }
 
-                Label {
-                    id: valueLabel
-                    text: "Value"
-                    //text: qsTr("Value")
-                }
+                    Label {
+                        id: valueLabel
+                        text: "Value"
+                        //text: qsTr("Value")
+                    }
 
-                Button {
-                    id: closeButton
-                    text: qsTr("Close Csound")
+
+                    Button {
+                        id: requestStringChannelButton
+                        text: qsTr("Request StringChannel")
+                    }
+
+
+                    TextField {
+                        id: requestStringChannelField
+                        text: qsTr("status")
+                    }
+                    Label {
+                        id: stringValueLabel
+                        text: "Value"
+                    }
+
+                    Button {
+                        id: closeButton
+                        text: qsTr("Close Csound")
+                    }
+
                 }
 
             }
+
         }
+
 
 
 

@@ -15,6 +15,7 @@ ApplicationWindow {
         target:  udpSender
 
         onNewControlChannelValue: mainForm.valueLabel.text = value.toFixed(3)
+        onNewStringChannelValue: mainForm.stringValueLabel.text = stringValue
 
     }
 
@@ -26,11 +27,6 @@ ApplicationWindow {
         //anchors.margins: 5
         property string lastHost: "192.168.1.199"
         property int lastPort: 6006
-
-        closeButton.onClicked: {
-            udpSender.sendMessage("##close##")
-        }
-
 
         Settings {
             id: settings
@@ -57,13 +53,13 @@ ApplicationWindow {
             lastHost = hostField.text;
             lastPort = portSpinBox.value;
         }
-        channelSlider.onValueChanged: udpSender.sendMessage("@"+channelField.text+" "+channelSlider.value);
-        eventbutton.onClicked: udpSender.sendMessage("$"+eventField.text)
-        orcButton.onClicked: udpSender.sendMessage(orcField.text)
-        send2stringChannelButton.onClicked: udpSender.sendMessage("%"+stringChannel.text + " " + stringChannelField.text )
-        requestControlChannelButton.onClicked: {
-            udpSender.requestControlChannelValue(requestControlChannelField.text)
-        }
+        channelSlider.onValueChanged: udpSender.setControlChannel(channelField.text, channelSlider.value);
+        eventbutton.onClicked: udpSender.readScore(eventField.text)
+        orcButton.onClicked: udpSender.compileOrc(orcField.text)
+        send2stringChannelButton.onClicked: udpSender.setStringChannel(stringChannel.text, stringChannelField.text)
+        requestControlChannelButton.onClicked:            udpSender.requestControlChannelValue(requestControlChannelField.text)
+        requestStringChannelButton.onClicked: udpSender.requestStringChannelValue(requestStringChannelField.text)
+        closeButton.onClicked: udpSender.closeCsound() // you can use also udpSender.sendMessage(<message>) to do anything else
 
 
         FileDialog {

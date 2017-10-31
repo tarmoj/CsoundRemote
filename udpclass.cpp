@@ -57,7 +57,7 @@ void UdpClass::setControlChannel(QString channel, double value)
 
 void UdpClass::setStringChannel(QString channel, QString string)
 {
-	sendMessage("@"+channel + " " + string);
+	sendMessage("%"+channel + " " + string);
 }
 
 void UdpClass::compileOrc(QString code)
@@ -104,6 +104,11 @@ QString UdpClass::getStringChannel(QString channel)
 	} else {
 		return "none";
 	}
+}
+
+void UdpClass::closeCsound()
+{
+	sendMessage("##close##");
 }
 
 // to test you can do in bash: echo -n "hello2" >/dev/udp/127.0.0.1/60606

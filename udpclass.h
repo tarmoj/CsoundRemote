@@ -24,11 +24,13 @@ public:
 	Q_INVOKABLE void requestStringChannelValue(QString channel);
 	Q_INVOKABLE double getControlChannel(QString channel);
 	Q_INVOKABLE QString getStringChannel(QString channel);
+	Q_INVOKABLE void closeCsound();
+
 
 	Q_INVOKABLE QString getLocalAddress();
 signals:
 	void newControlChannelValue(QString channel, double value);
-	void newStringChannelValue(QString channel, QString string);
+	void newStringChannelValue(QString channel, QString stringValue);
 
 private:
 
