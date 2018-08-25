@@ -1,6 +1,7 @@
 #include "udpclass.h"
-#include <QNetworkDatagram>
 #include <QNetworkInterface>
+//#include <QNetworkDatagram> // OK from  Qt 5.9
+
 
 UdpClass::UdpClass(QObject *parent)
 {
@@ -35,7 +36,7 @@ void UdpClass::setReceivingPort(int port) // TODO: test this? If the old port is
 	if (receiveSocket->isOpen()) {
 		receiveSocket->close();
 	}
-	receiveSocket->bind(QHostAddress::Any, receivePort ); // test: isn't it problem when set again?
+    receiveSocket->bind(QHostAddress::Any, receivePort );
 }
 
 //TODO: closeEvent
@@ -115,9 +116,12 @@ void UdpClass::closeCsound()
 void UdpClass::readPendingDatagrams()
 {
 	while (receiveSocket->hasPendingDatagrams()) {
-		QNetworkDatagram datagram = receiveSocket->receiveDatagram();
-		//processTheDatagram(datagram);
-		QString response = QString(datagram.data());
+		QByteArray buffer; // for older Qt
+		buffer.resize(receiveSocket->pendingDatagramSize());
+		receiveSocket->readDatagram(buffer.data(), buffer.size());
+		QString response = QString(buffer);
+//		QNetworkDatagram datagram = receiveSocket->receiveDatagram(); // OK in Qt 5.9
+//		QString response = QString(datagram.data());
 		qDebug()<<"Recieved " << response;
 		QStringList messageParts = response.split("::");
 		if (messageParts.count()>=2) {
@@ -131,9 +135,7 @@ void UdpClass::readPendingDatagrams()
 				stringChannelValues[channel] = messageParts[1]; // otherwise it is probably string
 				emit newStringChannelValue(channel, messageParts[1]);
 			}
-
 		}
-
 	}
 }
 

@@ -25,9 +25,9 @@ Rectangle {
             spacing: 5
             Label {text:"Volume"}
 
-            Slider {  onPositionChanged: udpSender.sendMessage("@volume " + position ); }
-            Button { text: "Start"; onClicked:  udpSender.sendMessage("$i 2 0 -1 ");  }
-            Button { text: "Stop"; onClicked:  udpSender.sendMessage("$i -2 0 0 ");  }
+            Slider {  onPositionChanged: csound.sendMessage("@volume " + position ); }
+            Button { text: "Start"; onClicked:  csound.sendMessage("$i 2 0 -1 ");  }
+            Button { text: "Stop"; onClicked:  csound.sendMessage("$i -2 0 0 ");  }
         }
 
         // Button grid
@@ -46,7 +46,7 @@ Rectangle {
                     text: index;
                     width: parent.width/3-20
                     height: ablingerRect.height/6
-                    onClicked: udpSender.sendMessage("@index "+index);
+                    onClicked: csound.sendMessage("@index "+index);
                 }
             }
 

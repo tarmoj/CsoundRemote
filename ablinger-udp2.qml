@@ -46,13 +46,13 @@ Rectangle {
                 rows: 2
 
                 Label {text:"Volume"}
-                Slider { onValueChanged: udpSender.sendMessage("@volume " + value ); }
+                Slider { onValueChanged: csound.sendMessage("@volume " + value ); }
 
                 Button {
                     text: "Test"
                     onClicked: {
-                        udpSender.sendMessage("@test " + Math.random()*100)
-                        udpSender.requestControlChannelValue("test");
+                        csound.sendMessage("@test " + Math.random()*100)
+                        csound.requestControlChannelValue("test");
                         testTimer.start()
 
                     }
@@ -63,7 +63,7 @@ Rectangle {
                         running: false; repeat: false;
                         onTriggered: {
                             console.log("triggeerd")
-                            testLabel.text = udpSender.getControlChannel("test")
+                            testLabel.text = csound.getControlChannel("test")
                         }
                     }
                 }
@@ -79,10 +79,10 @@ Rectangle {
                 Layout.preferredHeight:  ablingerRect.height/6;
                 text: "Stop";
                 anchors.right: parent.right; anchors.rightMargin: 5;
-                onClicked:  udpSender.sendMessage("$i -2 0 0 ");
+                onClicked:  csound.sendMessage("$i -2 0 0 ");
             }
 
-            //Button { text: "Start"; onClicked:  udpSender.sendMessage("$i 2 0 -1 ");  }
+            //Button { text: "Start"; onClicked:  csound.sendMessage("$i 2 0 -1 ");  }
 
         }
     }
@@ -138,7 +138,7 @@ Rectangle {
             }
             text = value.toString();
             var command =  "schedule 1,0,0," +  value.toString(); //"$i 1 0 0 " + value.toString() + "\n"
-            udpSender.sendMessage(command);
+            csound.sendMessage(command);
         }
     }
 

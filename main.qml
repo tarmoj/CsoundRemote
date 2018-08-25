@@ -1,18 +1,21 @@
 import QtQuick 2.5
-import QtQuick.Controls 2.1
+//import QtQuick.Controls 1.4  // for Qt<5.7
+import QtQuick.Controls 2.0 // better, for android
+
 import QtQuick.Dialogs 1.2
 import Qt.labs.settings 1.0
+import QtSensors 5.3
 
 ApplicationWindow {
     id: mainWindow
-    title: qsTr("QML loading test")
+    title: qsTr("Csound Remote")
     visible: true
     width: 640
     height: 480
 
 
     Connections {
-        target:  udpSender
+        target:  csound
 
         onNewControlChannelValue: mainForm.valueLabel.text = value.toFixed(3)
         onNewStringChannelValue: mainForm.stringValueLabel.text = stringValue
@@ -39,7 +42,7 @@ ApplicationWindow {
         Component.onCompleted: {
             mainForm.portSpinBox.value = lastPort;
             mainForm.hostField.text = lastHost;
-            udpSender.setAddress(lastHost, lastPort);
+            csound.setAddress(lastHost, lastPort);
         }
 
         loadButton.onClicked: fileDialog.visible = true
@@ -49,24 +52,24 @@ ApplicationWindow {
         }
 
         updateButton.onClicked: {
-            udpSender.setAddress(hostField.text, portSpinBox.value );
+            csound.setAddress(hostField.text, portSpinBox.value );
             lastHost = hostField.text;
             lastPort = portSpinBox.value;
         }
-        channelSlider.onValueChanged: udpSender.setControlChannel(channelField.text, channelSlider.value);
-        eventbutton.onClicked: udpSender.readScore(eventField.text)
-        orcButton.onClicked: udpSender.compileOrc(orcField.text)
-        send2stringChannelButton.onClicked: udpSender.setStringChannel(stringChannel.text, stringChannelField.text)
-        requestControlChannelButton.onClicked:            udpSender.requestControlChannelValue(requestControlChannelField.text)
-        requestStringChannelButton.onClicked: udpSender.requestStringChannelValue(requestStringChannelField.text)
-        closeButton.onClicked: udpSender.closeCsound() // you can use also udpSender.sendMessage(<message>) to do anything else
+        channelSlider.onValueChanged: csound.setControlChannel(channelField.text, channelSlider.value);
+        eventbutton.onClicked: csound.readScore(eventField.text)
+        orcButton.onClicked: csound.compileOrc(orcField.text)
+        send2stringChannelButton.onClicked: csound.setStringChannel(stringChannel.text, stringChannelField.text)
+        requestControlChannelButton.onClicked:            csound.requestControlChannelValue(requestControlChannelField.text)
+        requestStringChannelButton.onClicked: csound.requestStringChannelValue(requestStringChannelField.text)
+        closeButton.onClicked: csound.closeCsound() // you can use also csound.sendMessage(<message>) to do anything else
 
 
         FileDialog {
             id: fileDialog
             title: qsTr("choose QML file to load")
             selectMultiple : false
-            nameFilters: [ "QML files (*.qml)"]
+            //nameFilters: [ "QML files (*.qml)"]
             //folder: shortcuts.home
 
             onAccepted: {

@@ -1,5 +1,6 @@
 import QtQuick 2.5
-import QtQuick.Controls 2.0
+//import QtQuick.Controls 1.4  // for Qt<5.7
+import QtQuick.Controls 2.0 // better, for android
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
 

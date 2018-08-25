@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    engine.rootContext()->setContextProperty("udpSender", &udpSender);
+    engine.rootContext()->setContextProperty("csound", &udpSender);  // so csound.copmpileOrc() etc can be used
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 

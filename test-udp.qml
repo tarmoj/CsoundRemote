@@ -9,7 +9,7 @@ Rectangle {
     Column {
         Button {
             text: "Event 1"
-            onClicked: udpSender.sendMessage("$i 1 0 1");
+            onClicked: csound.sendMessage("$i 1 0 1");
 
         }
 
