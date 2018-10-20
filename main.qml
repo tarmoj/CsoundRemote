@@ -13,7 +13,6 @@ ApplicationWindow {
     width: 640
     height: 480
 
-
     Connections {
         target:  csound
 
@@ -69,7 +68,7 @@ ApplicationWindow {
             id: fileDialog
             title: qsTr("choose QML file to load")
             selectMultiple : false
-            //nameFilters: [ "QML files (*.qml)"]
+            nameFilters: [ "QML files (*.qml)"]
             //folder: shortcuts.home
 
             onAccepted: {

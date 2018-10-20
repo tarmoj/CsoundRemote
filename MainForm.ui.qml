@@ -112,6 +112,7 @@ Item {
 //                    anchors.top: parent.top
                     anchors.rightMargin: 5
                     anchors.leftMargin: 5
+                    width: parent.width
                     flow: GridLayout.LeftToRight
                     columns: 3
 
@@ -124,6 +125,7 @@ Item {
                         id: hostField
                         //width: 250
                         text: "192.168.1.199"
+                        Layout.fillWidth: true
                     }
 
                     Label {
