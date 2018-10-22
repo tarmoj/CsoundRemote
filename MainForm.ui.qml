@@ -102,6 +102,10 @@ Item {
                 contentWidth: gridLayout.width
                 contentHeight: gridLayout.height
                 anchors.fill: parent
+                clip: true
+                boundsBehavior:
+                    Flickable.DragOverBounds
+
 
                 GridLayout {
                     id: gridLayout
