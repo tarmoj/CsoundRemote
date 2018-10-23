@@ -81,15 +81,15 @@ ApplicationWindow {
                 title: qsTr("choose QML file to load")
                 //selectMultiple : false
                 nameFilters: [ "QML files (*.qml)"]
-                //folder: shortcuts.home
+                folder: StandardPaths.writableLocation(StandardPaths.DownloadLocation)
 
                 onAccepted: {
-                    var basename = fileUrl.toString()
+                    var basename =   file.toString()
                     basename = basename.slice(0, basename.lastIndexOf("/")+1)
                     folder = basename
-                    console.log("You chose: " + fileUrl + " in folder: " + basename)
+                    console.log("You chose: " + file + " in folder: " + basename)
 
-                    var component = Qt.createComponent(fileDialog.fileUrl);
+                    var component = Qt.createComponent(fileDialog.file);
                     var win = component.createObject(page2);
                 }
                 onRejected: {
