@@ -1,4 +1,4 @@
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include "udpclass.h"
@@ -6,7 +6,7 @@
 int main(int argc, char *argv[])
 {
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-	QGuiApplication app(argc, argv);
+	QApplication app(argc, argv);
 
     UdpClass udpSender;
     udpSender.setAddress("127.0.0.1", 6006);

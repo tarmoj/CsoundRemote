@@ -2,7 +2,7 @@
 
 #QT += qml quick widgets network
 
-QT += quick network
+QT += qml quick network widgets
 CONFIG += c++11
 
 SOURCES += main.cpp \
@@ -38,7 +38,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 
-#DISTFILES += \
+DISTFILES += \
 #    android/AndroidManifest.xml \
 #    android/gradle/wrapper/gradle-wrapper.jar \
 #    android/gradlew \
@@ -46,9 +46,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 #    android/build.gradle \
 #    android/gradle/wrapper/gradle-wrapper.properties \
 #    android/gradlew.bat \
-#    test-udp.qml \
-#    ablinger-udp.qml \
-#    ablinger-udp2.qml
+	test-udp.qml \
+	ablinger-udp.qml \
+	ablinger-udp2.qml
 
 #ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
