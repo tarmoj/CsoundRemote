@@ -1,11 +1,15 @@
-TEMPLATE = app
+#TEMPLATE = app
 
-QT += qml quick widgets network
+#QT += qml quick widgets network
 
+QT += quick network
 CONFIG += c++11
 
 SOURCES += main.cpp \
     udpclass.cpp
+
+HEADERS += \
+	udpclass.h
 
 RESOURCES += qml.qrc
 
@@ -33,19 +37,18 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-HEADERS += \
-    udpclass.h
 
-DISTFILES += \
-    android/AndroidManifest.xml \
-    android/gradle/wrapper/gradle-wrapper.jar \
-    android/gradlew \
-    android/res/values/libs.xml \
-    android/build.gradle \
-    android/gradle/wrapper/gradle-wrapper.properties \
-    android/gradlew.bat \
-    test-udp.qml \
-    ablinger-udp.qml \
-    ablinger-udp2.qml
+#DISTFILES += \
+#    android/AndroidManifest.xml \
+#    android/gradle/wrapper/gradle-wrapper.jar \
+#    android/gradlew \
+#    android/res/values/libs.xml \
+#    android/build.gradle \
+#    android/gradle/wrapper/gradle-wrapper.properties \
+#    android/gradlew.bat \
+#    test-udp.qml \
+#    ablinger-udp.qml \
+#    ablinger-udp2.qml
 
-ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+#ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+
