@@ -1,6 +1,7 @@
 import QtQuick 2.5
 //import QtQuick.Controls 1.4  // for Qt<5.7
-import QtQuick.Controls 2.0 // better, for android
+import QtQuick.Controls 2.0
+// better, for android
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.1
 
@@ -34,10 +35,6 @@ Page {
         contentHeight: gridLayout.height
         anchors.fill: parent
         anchors.margins: 6
-        //                clip: true
-        //                boundsBehavior:
-        //                    Flickable.DragOverBounds
-
 
         GridLayout {
             id: gridLayout
@@ -52,6 +49,7 @@ Page {
             TextField {
                 id: hostField
                 text: "192.168.1.199"
+                Layout.maximumWidth: 200
                 Layout.fillWidth: true
                 Layout.columnSpan: 2
             }
@@ -64,6 +62,9 @@ Page {
 
             SpinBox {
                 id: portSpinBox
+                Layout.preferredWidth: 140
+                Layout.maximumWidth: 200
+                Layout.fillWidth: true
                 value: 6006
                 editable: true
                 stepSize: 1
@@ -90,6 +91,8 @@ Page {
 
             Slider {
                 id: channelSlider
+                Layout.maximumWidth: 130
+                Layout.fillWidth: true
             }
 
             Label {
@@ -134,7 +137,6 @@ Page {
                 placeholderText: qsTr("Text Field")
             }
 
-
             TextField {
                 id: stringChannelField
                 text: "OK"
@@ -144,6 +146,8 @@ Page {
             Button {
                 id: requestControlChannelButton
                 text: qsTr("Request ControlChannel")
+                Layout.maximumWidth: parent.width * 0.3
+                Layout.fillWidth: true
             }
 
             TextField {
@@ -156,12 +160,12 @@ Page {
                 text: "Value"
             }
 
-
             Button {
                 id: requestStringChannelButton
-                text: qsTr("Request StringChannel")
+                text: qsTr("Request StringCh.")
+                Layout.maximumWidth: parent.width * 0.3
+                Layout.fillWidth: true
             }
-
 
             TextField {
                 id: requestStringChannelField
@@ -176,9 +180,6 @@ Page {
                 id: closeButton
                 text: qsTr("Close Csound")
             }
-
         }
-
     }
-
 }
