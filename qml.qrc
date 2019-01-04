@@ -2,6 +2,7 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>MainForm.ui.qml</file>
-		<file>qtquickcontrols2.conf</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>FilePicker.qml</file>
     </qresource>
 </RCC>

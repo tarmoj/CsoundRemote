@@ -1,11 +1,11 @@
-import QtQuick 2.7
+import QtQuick 2.9
 //import QtQuick.Controls 1.4  // for Qt<5.7
-import QtQuick.Controls 2.0 // better, for android
+import QtQuick.Controls 2.2 // better, for android
 
-import QtQuick.Dialogs 1.2
+//import QtQuick.Dialogs 1
 import Qt.labs.settings 1.0
 import Qt.labs.platform 1.0
-import QtSensors 5.3
+import QtSensors 5.9
 
 ApplicationWindow {
     id: mainWindow
@@ -74,7 +74,15 @@ ApplicationWindow {
             height: 400
             //anchors.fill: parent // NB! this creates conflicting anchors!
 
-
+            FilePicker {
+                id: fileChooser
+                anchors.fill: parent
+                onFileSelected: {
+                    console.log("File selected: ", fileURL)
+                    var component = Qt.createComponent(fileURL);
+                    var win = component.createObject(page2);
+                }
+            }
 
             FileDialog {
                 id: fileDialog
