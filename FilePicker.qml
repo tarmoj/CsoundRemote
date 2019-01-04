@@ -3,6 +3,7 @@
 
 import QtQuick 2.8
 import Qt.labs.folderlistmodel 2.2
+import Qt.labs.platform 1.0
 import QtQuick.Controls.Material 2.3
 
 Item {
@@ -44,27 +45,27 @@ Item {
     ListView {
         id: fileList
         anchors.fill: parent
-        anchors.margins: 20
-        //highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
+        anchors.margins: 10
         focus: true
+        header: Text { text:qsTr("Load QML file"); color: Material.foreground; font.bold: true; font.italic:  true }
 
         FolderListModel{
             id: folderModel
             nameFilters: ["*.qml"]
             showDirsFirst: true
             showDotAndDotDot: true
-            folder: "file:///sdcard/"
+            folder: StandardPaths.writableLocation(StandardPaths.DownloadLocation)// "file:///sdcard/"
         }
 
         Component {
             id: fileDelegate
-            Item {
+            Rectangle {
                 width: parent.width
                 height: 30
                 //border.color: Material.foreground
-                //radius: 4
+                radius: 8
                 //color: "transparent"
-                //color: Material.background//ListView.isCurrentItem ?  Material.accent : Material.background //"transparent"
+                color: isActive ? "#19ffffff" : "transparent"
                 property bool isActive: ListView.isCurrentItem
 
                 MouseArea {
@@ -80,9 +81,8 @@ Item {
                 }
                 Text {
                     width: parent.width
-                    color: parent.isActive ?  Material.accent : Material.foreground //Material.foreground
+                    color: parent.isActive ?  Material.accent : Material.foreground
                     text: fileName
-                    //font.underline: parent.isActive
                 }
             }
         }
