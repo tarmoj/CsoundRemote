@@ -44,14 +44,14 @@ Item {
     ListView {
         id: fileList
         anchors.fill: parent
-        anchors.margins: 5
+        anchors.margins: 20
         //highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
         focus: true
 
         FolderListModel{
             id: folderModel
             nameFilters: ["*.qml"]
-            //showDirsFirst: true
+            showDirsFirst: true
             showDotAndDotDot: true
             folder: "file:///sdcard/"
         }

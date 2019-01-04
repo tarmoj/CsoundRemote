@@ -5,6 +5,8 @@
 QT += qml quick network widgets
 CONFIG += c++11
 
+android: QT += androidextras
+
 SOURCES += main.cpp \
     udpclass.cpp
 
