@@ -4,14 +4,22 @@
 import QtQuick 2.8
 import Qt.labs.folderlistmodel 2.2
 import Qt.labs.platform 1.0
-import QtQuick.Controls.Material 2.3
+import QtQuick.Controls.Material 2.2
+import QtQuick.Controls 2.2
 
-Item {
+Rectangle {
+    id: filePicker
     width:200
     height: 400
     anchors.fill: parent
     signal fileSelected(string fileURL)
-
+    signal clearPressed()
+    signal hidePressed()
+    color: Material.background
+    border.width: 2
+    border.color: Material.foreground
+    radius: 10
+    clip: true
 
     function currentFolder() {
         return folderModel.folder;
@@ -26,7 +34,6 @@ Item {
 
     function onItemClick(fileName, fileURL) {
         if(!isFolder(fileName)) {
-            console.log("filenam, fileURL", fileName)
             fileSelected(fileURL) // emit signal to parent
             return;
         }
@@ -47,7 +54,27 @@ Item {
         anchors.fill: parent
         anchors.margins: 10
         focus: true
-        header: Text { text:qsTr("Load QML file"); color: Material.foreground; font.bold: true; font.italic:  true }
+
+        header: Row {
+            spacing: 10
+            Button {
+                text:qsTr("Load");
+                onClicked: {
+                    console.log("Current item name: ", fileList.currentIndex, folderModel.get(fileList.currentIndex, "fileName"), folderModel.get(fileList.currentIndex, "fileURL"))
+                    onItemClick(folderModel.get(fileList.currentIndex, "fileName"), folderModel.get(fileList.currentIndex, "fileURL"))
+
+                }
+            }
+            Button { text: qsTr("Cancel"); onClicked: hidePressed() }
+            Button {
+                text: qsTr("Clear");
+                onClicked: {
+                    clearPressed();
+                }
+            }
+
+
+        }
 
         FolderListModel{
             id: folderModel

@@ -74,7 +74,12 @@ ApplicationWindow {
             width: 600
             height: 400
             //anchors.fill: parent // NB! this creates conflicting anchors!
+            UiPage {
+                id: qmlPage1
+                anchors.fill: parent
+            }
 
+/*
             FilePicker {
                 id: loadFile1
                 visible: !parent.isLoaded
@@ -92,6 +97,7 @@ ApplicationWindow {
                 visible: !loadFile1.visible
                 anchors.fill: parent
             }
+            */
         }
 
         Page {
@@ -133,7 +139,7 @@ ApplicationWindow {
                 anchors.right: parent.right
                 anchors.rightMargin: 5
                 text: "Load"
-                onClicked: {loadFile1.visible = true }
+                onClicked: {console.log("Clicked"); qmlPage1.showFileDialog = true }
 
             }
         }
