@@ -1,11 +1,11 @@
-import QtQuick 2.7
+import QtQuick 2.9
 //import QtQuick.Controls 1.4  // for Qt<5.7
-import QtQuick.Controls 2.0 // better, for android
+import QtQuick.Controls 2.2 // better, for android
 
-import QtQuick.Dialogs 1.2
+//import QtQuick.Dialogs 1
 import Qt.labs.settings 1.0
 import Qt.labs.platform 1.0
-import QtSensors 5.3
+import QtSensors 5.9
 
 ApplicationWindow {
     id: mainWindow
@@ -34,6 +34,7 @@ ApplicationWindow {
         id: swipeView
         anchors.fill: parent
         currentIndex: tabBar.currentIndex
+
 
         MainForm {
             id: mainForm
@@ -74,30 +75,47 @@ ApplicationWindow {
             height: 400
             //anchors.fill: parent // NB! this creates conflicting anchors!
 
-
-
-            FileDialog {
-                id: fileDialog
-                title: qsTr("choose QML file to load")
-                //selectMultiple : false
-                nameFilters: [ "QML files (*.qml)"]
-                folder: StandardPaths.writableLocation(StandardPaths.DownloadLocation)
-
-                onAccepted: {
-                    var basename =   file.toString()
-                    basename = basename.slice(0, basename.lastIndexOf("/")+1)
-                    folder = basename
-                    console.log("You chose: " + file + " in folder: " + basename)
-
-                    var component = Qt.createComponent(fileDialog.file);
-                    var win = component.createObject(page2);
+            FilePicker {
+                id: loadFile1
+                visible: !parent.isLoaded
+                anchors.fill: parent
+                onFileSelected: {
+                    console.log("File selected1: ", fileURL)
+                    var component = Qt.createComponent(fileURL);
+                    var win = component.createObject(content1);
+                    visible = false
                 }
-                onRejected: {
-                    console.log("Canceled")
-                }
-
             }
 
+            Item {
+                id: content1
+                visible: !loadFile1.visible
+                anchors.fill: parent
+            }
+        }
+
+        Page {
+            id: page3
+            width: 600
+            height: 400
+
+            FilePicker {
+                id: loadFile2
+                visible: true
+                anchors.fill: parent
+                onFileSelected: {
+                    console.log("File selected2: ", fileURL)
+                    var component = Qt.createComponent(fileURL);
+                    var win = component.createObject(content2);
+                    visible = false
+                }
+            }
+
+            Item {
+                id: content2
+                visible: !loadFile2.visible
+                anchors.fill: parent
+            }
         }
 
     }
@@ -110,12 +128,22 @@ ApplicationWindow {
             text: qsTr("Main")
         }
         TabButton {
-            text: qsTr("Page 2")
+            text: qsTr("1")
             Button {
                 anchors.right: parent.right
                 anchors.rightMargin: 5
                 text: "Load"
-                onClicked: fileDialog.visible = true
+                onClicked: {loadFile1.visible = true }
+
+            }
+        }
+        TabButton {
+            text: qsTr("2")
+            Button {
+                anchors.right: parent.right
+                anchors.rightMargin: 5
+                text: "Load"
+                onClicked: loadFile2.visible = true
 
             }
         }

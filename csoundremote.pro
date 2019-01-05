@@ -5,6 +5,8 @@
 QT += qml quick network widgets
 CONFIG += c++11
 
+android: QT += androidextras
+
 SOURCES += main.cpp \
     udpclass.cpp
 
@@ -14,7 +16,7 @@ HEADERS += \
 RESOURCES += qml.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
+QML_IMPORT_PATH +=  #/home/tarmo/src/Qt/5.12.0/android_armv7/qml/
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
