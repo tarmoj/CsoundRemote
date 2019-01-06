@@ -1,6 +1,7 @@
-#include <QApplication>
+#include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QIcon>
 #include "udpclass.h"
 
 #ifdef Q_OS_ANDROID
@@ -24,7 +25,8 @@ bool checkPermission() { // requires >= Qt 5.10
 int main(int argc, char *argv[])
 {
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-	QApplication app(argc, argv);
+	QGuiApplication app(argc, argv);
+
 
 #ifdef Q_OS_ANDROID
     checkPermission();
@@ -39,6 +41,6 @@ int main(int argc, char *argv[])
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
-
+	app.setWindowIcon(QIcon(":/images/cd-remote-icon.png"));
     return app.exec();
 }

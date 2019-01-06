@@ -2,7 +2,7 @@
 
 #QT += qml quick widgets network
 
-QT += qml quick network widgets
+QT += qml quick network
 CONFIG += c++11
 
 android: QT += androidextras
