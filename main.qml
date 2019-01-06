@@ -73,53 +73,22 @@ ApplicationWindow {
             id: page2
             width: 600
             height: 400
+            clip: true
             //anchors.fill: parent // NB! this creates conflicting anchors!
             UiPage {
                 id: qmlPage1
                 anchors.fill: parent
             }
-
-/*
-            FilePicker {
-                id: loadFile1
-                visible: !parent.isLoaded
-                anchors.fill: parent
-                onFileSelected: {
-                    console.log("File selected1: ", fileURL)
-                    var component = Qt.createComponent(fileURL);
-                    var win = component.createObject(content1);
-                    visible = false
-                }
-            }
-
-            Item {
-                id: content1
-                visible: !loadFile1.visible
-                anchors.fill: parent
-            }
-            */
         }
 
         Page {
             id: page3
             width: 600
             height: 400
+            clip: true
 
-            FilePicker {
-                id: loadFile2
-                visible: true
-                anchors.fill: parent
-                onFileSelected: {
-                    console.log("File selected2: ", fileURL)
-                    var component = Qt.createComponent(fileURL);
-                    var win = component.createObject(content2);
-                    visible = false
-                }
-            }
-
-            Item {
-                id: content2
-                visible: !loadFile2.visible
+            UiPage {
+                id: qmlPage2
                 anchors.fill: parent
             }
         }
@@ -133,24 +102,45 @@ ApplicationWindow {
         TabButton {
             text: qsTr("Main")
         }
-        TabButton {
+        TabButton { // should be wise to create separate element from it, not to copy-paste. Later.
             text: qsTr("1")
-            Button {
+            Image {
+                source: "qrc:///images/open_folder.png"
+                height: parent.height*0.5
+                width: Math.min(height, parent.width * 0.4)
+                anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
-                anchors.rightMargin: 5
-                text: "Load"
-                onClicked: {console.log("Clicked"); qmlPage1.showFileDialog = true }
+                fillMode: Image.PreserveAspectFit
 
+                MouseArea {
+                    anchors.fill: parent
+                    anchors.margins: -10  // make the MouseArea somewhat bigger
+                    onClicked: {
+                        tabBar.setCurrentIndex(1)
+                        qmlPage1.showFileDialog = !qmlPage1.showFileDialog
+                    }
+                }
             }
         }
         TabButton {
             text: qsTr("2")
-            Button {
+            Image {
+                source: "qrc:///images/open_folder.png"
+                height: parent.height*0.5
+                width: Math.min(height, parent.width * 0.4)
+                anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
                 anchors.rightMargin: 5
-                text: "Load"
-                onClicked: loadFile2.visible = true
+                fillMode: Image.PreserveAspectFit
 
+                MouseArea {
+                    anchors.fill: parent
+                    //anchors.margins: -10  // make the MouseArea somewhat bigger
+                    onClicked: {
+                        tabBar.setCurrentIndex(2)
+                        qmlPage2.showFileDialog = !qmlPage2.showFileDialog
+                    }
+                }
             }
         }
     }

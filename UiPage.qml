@@ -5,7 +5,7 @@ Item {
     width: 600
     height: 400
     property string qmlFile: ""
-    property bool showFileDialog: true
+    property bool showFileDialog: false
 
     Item {
         id: qmlContent

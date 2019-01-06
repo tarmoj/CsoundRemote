@@ -5,5 +5,7 @@
         <file>qtquickcontrols2.conf</file>
         <file>FilePicker.qml</file>
         <file>UiPage.qml</file>
+        <file>images/cd-remote-icon.png</file>
+        <file>images/open_folder.png</file>
     </qresource>
 </RCC>
