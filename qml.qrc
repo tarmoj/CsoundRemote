@@ -7,5 +7,7 @@
         <file>UiPage.qml</file>
         <file>images/cd-remote-icon.png</file>
         <file>images/open_folder.png</file>
+        <file>images/open_folder_inactive.png</file>
+        <file>QmlTabButton.qml</file>
     </qresource>
 </RCC>

@@ -20,6 +20,7 @@ Rectangle {
     border.color: Material.foreground
     radius: 10
     clip: true
+    property string lastFolder: ""
 
     function currentFolder() {
         return folderModel.folder;
@@ -55,23 +56,34 @@ Rectangle {
         anchors.margins: 10
         focus: true
 
-        header: Row {
-            spacing: 10
-            Button {
-                text:qsTr("Load");
-                onClicked: {
-                    console.log("Current item name: ", fileList.currentIndex, folderModel.get(fileList.currentIndex, "fileName"), folderModel.get(fileList.currentIndex, "fileURL"))
-                    onItemClick(folderModel.get(fileList.currentIndex, "fileName"), folderModel.get(fileList.currentIndex, "fileURL"))
+        header: Column {
+            Row {
+                spacing: 10
+                Button {
+                    text:qsTr("Load");
+                    onClicked: {
+                        console.log("Current item name: ", fileList.currentIndex, folderModel.get(fileList.currentIndex, "fileName"), folderModel.get(fileList.currentIndex, "fileURL"))
+                        onItemClick(folderModel.get(fileList.currentIndex, "fileName"), folderModel.get(fileList.currentIndex, "fileURL"))
 
+                    }
+                }
+                Button { text: qsTr("Cancel"); onClicked: hidePressed() }
+                Button {
+                    text: qsTr("Clear");
+                    onClicked: {
+                        clearPressed();
+                    }
                 }
             }
-            Button { text: qsTr("Cancel"); onClicked: hidePressed() }
-            Button {
-                text: qsTr("Clear");
-                onClicked: {
-                    clearPressed();
-                }
+
+            Text {
+                id: folderLabel
+                text: folderModel.folder.toString().replace("file://", "")
+                font.bold: true
+                font.italic: true
+                color: Material.primary
             }
+
 
 
         }
@@ -81,7 +93,7 @@ Rectangle {
             nameFilters: ["*.qml"]
             showDirsFirst: true
             showDotAndDotDot: true
-            folder: StandardPaths.writableLocation(StandardPaths.DownloadLocation)// "file:///sdcard/"
+            folder: lastFolder === "" ? StandardPaths.writableLocation(StandardPaths.DownloadLocation) : lastFolder // set the folder from settings
         }
 
         Component {

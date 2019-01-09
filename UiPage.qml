@@ -5,7 +5,21 @@ Item {
     width: 600
     height: 400
     property string qmlFile: ""
+    property string qmlFolder: ""
     property bool showFileDialog: false
+
+    Component.onCompleted:   {
+        filePicker.lastFolder = qmlFolder // to restore from settings
+        if (qmlFile !== "") {
+            showQmlContent(qmlFile)
+        }
+    }
+
+    function showQmlContent(fileURL) {
+        var component = Qt.createComponent(fileURL);
+        var win = component.createObject(qmlContent);
+        qmlContent.visible = true
+    }
 
     Item {
         id: qmlContent
@@ -19,17 +33,18 @@ Item {
         anchors.fill: parent
         anchors.margins: 10
         onFileSelected: {
-            console.log("File selected: ", fileURL)
             qmlFile = fileURL
-            var component = Qt.createComponent(fileURL);
-            var win = component.createObject(qmlContent);
-            qmlContent.visible = true
-            //visible = false
+            var basename = fileURL.toString()
+            basename = basename.slice(0, basename.lastIndexOf("/")+1)
+            qmlFolder = basename
+            //console.log("File selected: ", qmlFile, " in folder: ", qmlFolder)
+            showQmlContent(fileURL)
             showFileDialog = false
         }
         onHidePressed: showFileDialog = false
         onClearPressed: {
             qmlContent.visible = false;
+            qmlFile = ""
         }
     }
 

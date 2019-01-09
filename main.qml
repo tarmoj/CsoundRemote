@@ -15,9 +15,9 @@ ApplicationWindow {
     height: 480
 
     Connections {
-        target:  csound
+        target:  csound // handle signals from updHAndler with received channel values (getChannel)
 
-        onNewControlChannelValue: mainForm.valueLabel.text = value.toFixed(3)
+        onNewControlChannelValue:  mainForm.valueLabel.text = value.toFixed(3)
         onNewStringChannelValue: mainForm.stringValueLabel.text = stringValue
 
     }
@@ -26,8 +26,10 @@ ApplicationWindow {
         id: settings
             property alias host:  mainForm.lastHost
             property alias port: mainForm.lastPort
-            //property alias lastQml: fileDialog.fileUrl
-            //property alias lastQmlPath: fileDialog.folder
+            property alias url1: qmlPage1.qmlFile
+            property alias folder1: qmlPage1.qmlFolder
+            property alias url2: qmlPage2.qmlFile
+            property alias folder2: qmlPage2.qmlFolder
         }
 
     SwipeView {
@@ -38,9 +40,6 @@ ApplicationWindow {
 
         MainForm {
             id: mainForm
-            //anchors.top: loadQmlButton.bottom
-            //anchors.fill: parent
-            //anchors.margins: 5
             property string lastHost: "192.168.1.199"
             property int lastPort: 6006
 
@@ -102,45 +101,20 @@ ApplicationWindow {
         TabButton {
             text: qsTr("Main")
         }
-        TabButton { // should be wise to create separate element from it, not to copy-paste. Later.
-            text: qsTr("1")
-            Image {
-                source: "qrc:///images/open_folder.png"
-                height: parent.height*0.5
-                width: Math.min(height, parent.width * 0.4)
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.right: parent.right
-                fillMode: Image.PreserveAspectFit
 
-                MouseArea {
-                    anchors.fill: parent
-                    anchors.margins: -10  // make the MouseArea somewhat bigger
-                    onClicked: {
-                        tabBar.setCurrentIndex(1)
-                        qmlPage1.showFileDialog = !qmlPage1.showFileDialog
-                    }
-                }
+        QmlTabButton {
+            index: 1
+            onLoadClicked: {
+                tabBar.setCurrentIndex(index)
+                qmlPage1.showFileDialog = !qmlPage1.showFileDialog
             }
         }
-        TabButton {
-            text: qsTr("2")
-            Image {
-                source: "qrc:///images/open_folder.png"
-                height: parent.height*0.5
-                width: Math.min(height, parent.width * 0.4)
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.right: parent.right
-                anchors.rightMargin: 5
-                fillMode: Image.PreserveAspectFit
 
-                MouseArea {
-                    anchors.fill: parent
-                    //anchors.margins: -10  // make the MouseArea somewhat bigger
-                    onClicked: {
-                        tabBar.setCurrentIndex(2)
-                        qmlPage2.showFileDialog = !qmlPage2.showFileDialog
-                    }
-                }
+        QmlTabButton {
+            index: 2
+            onLoadClicked: {
+                tabBar.setCurrentIndex(index)
+                qmlPage2.showFileDialog = !qmlPage2.showFileDialog
             }
         }
     }
