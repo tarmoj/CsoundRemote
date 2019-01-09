@@ -63,3 +63,17 @@ DISTFILES += \
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
+ios {
+CONFIG -= bitcode
+
+    QMAKE_INFO_PLIST = ios/Info.plist
+    #ios_icon.files = $$files($$PWD/ios/icons/AppIcon.appiconset/*.png)
+    #ios_icon.files += $$files($$PWD/ios/icons/Itunes*.png)
+    #QMAKE_BUNDLE_DATA += ios_icon
+    #app_launch_images.files = $$PWD/ios/Launch.storyboard #$$files($$PWD/ios/launchimages/LaunchImage*.png) #$$PWD/ios/Launch.xib
+    #QMAKE_BUNDLE_DATA += app_launch_images
+
+}
+
+
+}
