@@ -16,14 +16,11 @@ Item {
     }
 
     function showQmlContent(fileURL) {
-        var component = Qt.createComponent(fileURL);
-        var win = component.createObject(qmlContent);
-        qmlContent.visible = true
+        qmlContent.source = fileURL + "?t=" + Date.now() // to avoid from loading from QML cache if you need to reload the file
     }
 
-    Item {
+    Loader {
         id: qmlContent
-        visible: true//!showFileDialog//filePicker.visible
         anchors.fill: parent
     }
 
@@ -37,13 +34,12 @@ Item {
             var basename = fileURL.toString()
             basename = basename.slice(0, basename.lastIndexOf("/")+1)
             qmlFolder = basename
-            //console.log("File selected: ", qmlFile, " in folder: ", qmlFolder)
             showQmlContent(fileURL)
             showFileDialog = false
         }
         onHidePressed: showFileDialog = false
         onClearPressed: {
-            qmlContent.visible = false;
+            qmlContent.source = ""; // unload content
             qmlFile = ""
         }
     }
