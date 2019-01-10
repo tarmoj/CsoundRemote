@@ -7,6 +7,7 @@ Csound Remote can be run on the same with Csound or on another one computer or o
 The app has **Main** tab for sending basic messages (send event, compile orchestra, send and receive control and string channel values, stop Csound) but you can load also custom QML files for your own UI design that use almost standard Csound API calls to communicate with Csound, the actual UDP work will be done by the app under the hood.
 
 <br>
+
 ### To start...
 
 Run csound with option --port \<portnumber\>:
@@ -18,6 +19,7 @@ Set the IP address and according port in Csound Remote's main tab. Press _Update
 To test, send Event `"i 1 0 1" ` (or whatever corresponds to your orchestra), see in Csound console, if the event was received and the instrument run.
 
 <br>
+
 ### API 
 
 The working horse of the app is class ``UdpClass``. For convenience it is forwarded to QML files as object `csound` to make the calls similar to usual Csound API calls. The conversion to required UDP message format will be done in  ``UdpClass``.
@@ -46,6 +48,7 @@ csound.closeCsound();
 ```
 
 <br>
+
 ### Receiving channel values (requestChannelValue/getChannel)
 
 If you need to get a channel value from csound you have to send first command to request it: (`csound.requestControlChannelValue(channel) or csound.requestControlChannelValue(channel)`)
