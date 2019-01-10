@@ -1,36 +1,31 @@
 ## Csound Remote
  
-**Csound Remote** is a remote GUI for controlling Csound using UDP messages. Csound must be started with --port command to listen to incoming UDP messages.
+**Csound Remote** is a remote GUI for controlling Csound via UDP messages. Csound must be started with --port option to listen to incoming UDP messages.
 
-It can be run on the same or other computer or android device (currently no iOs port yet), for example it can be useful to  control a running Csound instance in Raspberry Pi from a touch screen device.
+Csound Remote can be run on the same with Csound or on another one computer or on android device (currently no iOs port yet but it is possible). For example it can be useful to  control a running Csound instance on a headless Raspberry Pi from a touch screen device.
 
-The app has **Main** tab for sending basic messages (send event, compile orchestra, send and receive control and string channel values, stop Csound) but you can load also custom QML files with according API calls, the actual UDP work will be done by the app.
-
-The app can load QML files that describe the UI
+The app has **Main** tab for sending basic messages (send event, compile orchestra, send and receive control and string channel values, stop Csound) but you can load also custom QML files for your own UI design that use almost standard Csound API calls to communicate with Csound, the actual UDP work will be done by the app under the hood.
 
 <br>
 ### To start...
 
-run csound with option --port \<portnumber\>:
+Run csound with option --port \<portnumber\>:
 
 	csound --port=6006 -odac your.csd
 	
- Set the IP addres and according port in Csound Remote's main tab. If you change somethin, press also _Update_.
+Set the IP address and according port in Csound Remote's main tab. Press _Update_ to pass the change to UDP handler (no need to it next time if the address stays the same).
  
-To test, send Event `"i 1 0 1" ` (or what corresponds to your orchestra)
+To test, send Event `"i 1 0 1" ` (or whatever corresponds to your orchestra), see in Csound console, if the event was received and the instrument run.
 
 <br>
 ### API 
 
-The working horse of the app is class ``UdpClass``. For convenience it is forwarded to QML files as object `csound` to make the calls similar to usual Csound API calls. The conversion to required UDP messages format will be done in  ``UdpClass``.
+The working horse of the app is class ``UdpClass``. For convenience it is forwarded to QML files as object `csound` to make the calls similar to usual Csound API calls. The conversion to required UDP message format will be done in  ``UdpClass``.
 
 
-Available methods:
+*Available methods:*
 
-...
-
-
-You can send any message straight to Csound (if for example new UDP command will be added to Csound) with method
+You can send any message straight to Csound UDP receiver (if, for example, new UDP command will be added to new Csound version) with method
 
 	csound.sendMessage(message)
 
@@ -51,20 +46,21 @@ csound.closeCsound();
 ```
 
 <br>
-### Receiving channel values (getChannel)
+### Receiving channel values (requestChannelValue/getChannel)
 
-If you need to get a channel value from csound you have to send first command to request it (csound.requestControlChannelValue(channel) or csound.requestControlChannelValue(channel))
+If you need to get a channel value from csound you have to send first command to request it: (`csound.requestControlChannelValue(channel) or csound.requestControlChannelValue(channel)`)
 
-Csound sends the value back as an UDP message. For now the port is hardcoded to be 60606. Usually users should not worry about it, it takes place "under the hood".
+Csound sends the value back as an UDP message. For now the app's receiving port is hardcoded to 60606. Usually users should not worry about it, it takes place "under the hood". If some other software is using it, you just know to stop it, if possible.
 
-When the value is received, it is stored in hash `controlChannelValues` or `stringChannelValues.`   Corresponding signal `newControlChannelValue(channel, value) `or `newStringChannelValue(channel, stringValue)` is sent to the UI where it can be used within `Connections ` section 
+When the value is received, it is stored in hash `controlChannelValues` or `stringChannelValues and`corresponding signal `newControlChannelValue(channel, value) `or `newStringChannelValue(channel, stringValue)` is sent to the UI where it can be used within `Connections ` section 
 
 OR
 
-using a timer that fires a bit later than request is done and uses 
+use a `Timer` in QML code that fires a bit later than request was done and uses 
 ```
-csound.getControlChannel(channel);
-or csound.getStringChannel(channel);
+var value = csound.getControlChannel(channel);
+or 
+var string = csound.getStringChannel(channel);
 ```
 to read the value from hash in `UdpClass`.
 
@@ -74,9 +70,9 @@ See source code of [main.qml](./main.qml) for examples.
 
 ### Writing and loading custom UI
 
-You can export widgets from **CsoundQt** starting from version 0.9.6 with *File->Export to QML*. Not all widgets are supported now (currently Label, Button, Slider, SpinBox (but only with integer step), Knob are converted).
+You can export widgets from **CsoundQt** starting from version 0.9.6 with *File->Export widgets to QML*. Not all widgets are supported now (currently Label, Button, Slider, SpinBox (but only with integer step) and Knob are converted).
 
-If you write your own QML UI-s it might be convenient to use Designer tool of QtCreator that has great graphical interface for designing UI-s rather intuitively.
+If you write your own QML UI-s it might be convenient to use Designer tool of [QtCreator](http://doc.qt.io/qtcreator/creator-visual-editor.html) that has great graphical interface for designing UI-s rather intuitively.
 
 A minimal example of a QML could look:
 
@@ -102,7 +98,7 @@ Rectangle {
 
 You can load this or similar QML files to tabs 1 or 2 by clicking on the folder icon down on the tab-bar.
 
-
+Feel free to send me e-mail when you have any questions!
 
 <br>
 Copyright (c) Tarmo Johannes 2019, trmjhnns@gmail.com 
