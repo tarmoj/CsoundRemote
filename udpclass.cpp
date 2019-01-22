@@ -4,6 +4,7 @@
 
 
 UdpClass::UdpClass(QObject *parent)
+
 {
 	sendHost =  QHostAddress::LocalHost;
 	sendPort = 6006;
@@ -87,7 +88,7 @@ void UdpClass::requestStringChannelValue(QString channel)
 	sendMessage(":%"+channel+ " " + myIpAddress + " " + QString::number(receivePort));
 }
 
-double UdpClass::getControlChannel(QString channel)
+double UdpClass::getControlChannel(QString channel) // returns the corresponding value from channel values hash
 {
 	if (controlChannelValues.contains(channel)) {
 		qDebug()<<"Value found: " << controlChannelValues[channel];
