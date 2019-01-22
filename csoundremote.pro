@@ -67,6 +67,8 @@ ios {
 CONFIG -= bitcode
 
     QMAKE_INFO_PLIST = ios/Info.plist
+    qml_demo_files = $$files($$PWD/test-udp.qml)
+    QMAKE_BUNDLE_DATA += qml_demo_files
     #ios_icon.files = $$files($$PWD/ios/icons/AppIcon.appiconset/*.png)
     #ios_icon.files += $$files($$PWD/ios/icons/Itunes*.png)
     #QMAKE_BUNDLE_DATA += ios_icon
